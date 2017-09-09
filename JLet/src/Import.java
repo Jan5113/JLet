@@ -15,6 +15,7 @@ public class Import {
 	TextField tf_setName = new TextField();
 	TextArea ta_setTerms = new TextArea();
 	Button btn_import = new Button("Import");
+	Insets ins_standard = new Insets(12, 12, 12, 12);
 
 	public Set importSet() {
 
@@ -38,9 +39,9 @@ public class Import {
 		layout.setBottom(btn_import);
 
 		BorderPane.setAlignment(btn_import, Pos.BOTTOM_RIGHT);
-		BorderPane.setMargin(btn_import, new Insets(12.0, 12.0, 12.0, 12.0));
-		BorderPane.setMargin(ta_setTerms, new Insets(12.0, 12.0, 12.0, 12.0));
-		BorderPane.setMargin(tf_setName, new Insets(12.0, 12.0, 12.0, 12.0));
+		BorderPane.setMargin(btn_import, ins_standard);
+		BorderPane.setMargin(ta_setTerms, ins_standard);
+		BorderPane.setMargin(tf_setName, ins_standard);
 
 		btn_import.setOnAction(e -> importTerms());
 		btn_import.setDisable(true);
@@ -65,7 +66,7 @@ public class Import {
 	}
 
 	private void changeTF() {
-		if (!tf_setName.getText().isEmpty() && ta_setTerms.getText().split("\n").length > 0
+		if (!tf_setName.getText().trim().isEmpty() && ta_setTerms.getText().split("\n").length > 0
 				&& ta_setTerms.getText().split("\n")[0].split("\t").length > 1) { // ensure at least 1 term
 
 			btn_import.setDisable(false);
