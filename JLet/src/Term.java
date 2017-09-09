@@ -14,6 +14,6 @@ public class Term implements Serializable {
 	}
 
 	public String toString() {
-		return "Term: " + term + " | Definition: " + def;
+		return term + " | " + def;
 	}
 }

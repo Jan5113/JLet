@@ -28,4 +28,16 @@ public class Set {
 		}
 		return "Index " + index + " | " + (terms.get(index)).toString();
 	}
+
+	public String setToString() {
+		String out = "Set " + name;
+		for (Term t : terms) {
+			out += "\n" + t.toString();
+		}
+		return out;
+	}
+	
+	public boolean isEmpty() {
+		return terms.isEmpty();
+	}
 }

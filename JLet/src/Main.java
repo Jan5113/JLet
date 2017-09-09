@@ -14,6 +14,9 @@ public class Main extends Application {
 	Stage window;
 	Scene scn_home;
 	Insets ins_statard = new Insets(12, 12, 12, 12);
+	String lbl = "\n Hi there!";
+	Label lbl_title_home;
+	Set set_active = new Set();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -29,6 +32,7 @@ public class Main extends Application {
 
 		scn_home = new Scene(bp_home, 800, 600);
 		window.setScene(scn_home);
+		
 
 		
 		// ================================================
@@ -45,26 +49,26 @@ public class Main extends Application {
 			mn_import.getItems().addAll(mi_importFile, mi_importText);
 		}
 
-		Menu mn_file = new Menu("File");
+		Menu mn_set = new Menu("Set");
 		{
-			MenuItem mi_fileOpen = new MenuItem("Open");
-			mi_fileOpen.setOnAction(e -> Import());
+			MenuItem mi_setOpen = new MenuItem("Open");
+			mi_setOpen.setOnAction(e -> Import());
 
-			MenuItem mi_fileSave = new MenuItem("Save");
-			mi_fileSave.setOnAction(e -> Import());
+			MenuItem mi_setSave = new MenuItem("Save");
+			mi_setSave.setOnAction(e -> Import());
 
-			mn_file.getItems().addAll(mi_fileOpen, mi_fileSave);
+			mn_set.getItems().addAll(mi_setOpen, mi_setSave);
 		}
 
 		MenuBar mb_main = new MenuBar();
 		bp_home.setTop(mb_main);
 		BorderPane.setAlignment(mb_main, Pos.TOP_LEFT);
-		mb_main.getMenus().addAll(mn_file, mn_import);
+		mb_main.getMenus().addAll(mn_set, mn_import);
 
 		// ================================================
 
 		
-		Label lbl_title_home = new Label("JLet - Home");
+		lbl_title_home = new Label("JLet - Home" + lbl);
 		bp_home.setCenter(lbl_title_home);
 		BorderPane.setAlignment(lbl_title_home, Pos.CENTER);
 		BorderPane.setMargin(lbl_title_home, ins_statard);
@@ -82,7 +86,18 @@ public class Main extends Application {
 
 	private void Import() {
 		Set set_import = new Import().importSet();
-
-		System.out.println(set_import.termToString(1));
+		if (!set_import.isEmpty()) {
+			set_active = set_import;
+		}
+		
+		updateInfoLbl();
+	}
+	
+	private void updateInfoLbl() {
+		if (!set_active.isEmpty()) {
+			lbl_title_home.setText(set_active.setToString());
+		} else {
+			lbl_title_home.setText("No active Set");
+		}
 	}
 }
