@@ -24,7 +24,7 @@ public class Main extends Application {
 
 	public void start(Stage primaryStage) throws Exception {
 
-		Button btn_import;
+		Button btn_learn;
 		BorderPane bp_home = new BorderPane();
 
 		window = primaryStage;
@@ -55,7 +55,7 @@ public class Main extends Application {
 			mi_setOpen.setOnAction(e -> Import());
 
 			MenuItem mi_setSave = new MenuItem("Save");
-			mi_setSave.setOnAction(e -> Import());
+			mi_setSave.setOnAction(e -> SafeSet());
 
 			mn_set.getItems().addAll(mi_setOpen, mi_setSave);
 		}
@@ -73,15 +73,27 @@ public class Main extends Application {
 		BorderPane.setAlignment(lbl_title_home, Pos.CENTER);
 		BorderPane.setMargin(lbl_title_home, ins_statard);
 
-		btn_import = new Button("Import");
-		bp_home.setBottom(btn_import);
-		BorderPane.setAlignment(btn_import, Pos.BOTTOM_RIGHT);
-		BorderPane.setMargin(btn_import, ins_statard);
+		btn_learn = new Button("Learn");
+		bp_home.setBottom(btn_learn);
+		BorderPane.setAlignment(btn_learn, Pos.BOTTOM_RIGHT);
+		BorderPane.setMargin(btn_learn, ins_statard);
 
 		window.show();
 
-		btn_import.setOnAction(e -> Import());
+		btn_learn.setOnAction(e -> Learn());
 
+	}
+
+	private void Learn() {
+		// TODO Auto-generated method stub
+	}
+
+	private void SafeSet() {
+		if (!set_active.isEmpty()) {
+			SafeSet.defaultSafe(set_active);
+		} else {
+			AlertWindow.display("No Set", "No active set!\nImport or open set");
+		}
 	}
 
 	private void Import() {

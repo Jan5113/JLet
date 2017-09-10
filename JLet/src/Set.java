@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Set {
+public class Set implements Serializable{
+	private static final long serialVersionUID = -7401207601107379118L;
 	public String name;
 	private ArrayList<Term> terms = new ArrayList<Term>();
 

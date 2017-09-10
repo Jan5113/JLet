@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
-public class Term implements Serializable {
-	private static final long serialVersionUID = 8600590238409882639L;
+public class Term implements Serializable{
+	private static final long serialVersionUID = 8949624649071889699L;
 	public String term;
 	public String def;
 	public int correctness;
