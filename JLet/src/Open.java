@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -64,6 +65,7 @@ public class Open {
 	private void initialize() {
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("JLet - Open Set");
+		window.getIcons().add(new Image("file:icon.png"));
 
 		BorderPane layout = new BorderPane();
 

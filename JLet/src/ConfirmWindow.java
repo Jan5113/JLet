@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
@@ -16,6 +17,7 @@ public class ConfirmWindow {
 
 	public static boolean display(String title, String message) {
 		Stage window = new Stage();
+		window.getIcons().add(new Image("file:icon.png"));
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);

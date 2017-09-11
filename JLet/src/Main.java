@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -29,6 +30,7 @@ public class Main extends Application {
 
 		window = primaryStage;
 		window.setTitle("JLet");
+		window.getIcons().add(new Image("file:icon.png"));
 
 		scn_home = new Scene(bp_home, 800, 600);
 		window.setScene(scn_home);
