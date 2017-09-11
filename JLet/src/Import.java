@@ -66,6 +66,7 @@ public class Import {
 	}
 
 	private void changeTF() {
+		tf_setName.setText(tf_setName.getText().replaceAll("[?|<>:*/\\\"]",""));
 		if (!tf_setName.getText().trim().isEmpty() && ta_setTerms.getText().split("\n").length > 0
 				&& ta_setTerms.getText().split("\n")[0].split("\t").length > 1) { // ensure at least 1 term
 
