@@ -1,5 +1,3 @@
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import javafx.collections.FXCollections;
@@ -9,7 +7,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -22,10 +22,11 @@ public class Open {
 
 	private Button btn_open = new Button("Open");
 	private Insets ins_standard = new Insets(12, 12, 12, 12);
-	private ListView<String> list;
+	private TableView<Set> tbl_files;
 	private Set[] sets;
 	private int selectedIndex = 0;
 
+	@SuppressWarnings("unchecked")
 	public Set openSet() {
 		
 		initialize();
@@ -35,14 +36,25 @@ public class Open {
 		String[] fileNames = new String[sets.length];
 		
 		for (int i = 0; i < sets.length; i++) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");    
-			Date lastOpened = new Date(sets[i].getRecentUse());
-			fileNames[i] = sets[i].name + " " + sdf.format(lastOpened);
+			fileNames[i] = sets[i].name + " " + sets[i].getRecentUseStr();
 		}
 		
-		ObservableList<String> items = FXCollections.observableArrayList(fileNames);
+		TableColumn<Set, String> tclm_setName = new TableColumn<>("Set");
+		tclm_setName.setPrefWidth(300);
+		tclm_setName.setCellValueFactory(new PropertyValueFactory<Set, String>("Name"));
 
-		list.setItems(items);
+		TableColumn<Set, String> tclm_setSize = new TableColumn<>("Cards");
+		tclm_setSize.setPrefWidth(50);
+		tclm_setSize.setCellValueFactory(new PropertyValueFactory<Set, String>("SizeStr"));
+		
+		TableColumn<Set, String> tclm_setUsed = new TableColumn<>("Last Used");
+		tclm_setUsed.setPrefWidth(110);
+		tclm_setUsed.setCellValueFactory(new PropertyValueFactory<Set, String>("RecentUseStr"));
+		
+		ObservableList<Set> tableSets = FXCollections.observableArrayList(sets);
+
+		tbl_files.setItems(tableSets);
+		tbl_files.getColumns().addAll(tclm_setName, tclm_setSize, tclm_setUsed);
 		
 		window.showAndWait();
 
@@ -55,12 +67,12 @@ public class Open {
 
 		BorderPane layout = new BorderPane();
 
-		list = new ListView<>();
-		layout.setCenter(list);
+		tbl_files = new TableView<Set>();
+		layout.setCenter(tbl_files);
 		layout.setBottom(btn_open);
 
-		BorderPane.setAlignment(list, Pos.CENTER);
-		BorderPane.setMargin(list, ins_standard);
+		BorderPane.setAlignment(tbl_files, Pos.CENTER);
+		BorderPane.setMargin(tbl_files, ins_standard);
 
 		BorderPane.setAlignment(btn_open, Pos.BOTTOM_RIGHT);
 		BorderPane.setMargin(btn_open, ins_standard);
@@ -68,8 +80,8 @@ public class Open {
 		btn_open.setOnAction(e -> open());
 		btn_open.setDisable(true);
 
-		list.getSelectionModel().selectedItemProperty().addListener((obs_val, old_val, new_val) -> changeSelection());
-		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tbl_files.getSelectionModel().selectedItemProperty().addListener((obs_val, old_val, new_val) -> changeSelection());
+		tbl_files.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent mouseEvent) {
 		        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
 		            if(mouseEvent.getClickCount() == 2){
@@ -91,8 +103,8 @@ public class Open {
 	}
 
 	private void changeSelection() {
-		if (!list.getSelectionModel().isEmpty()){
-			selectedIndex = list.getSelectionModel().getSelectedIndex();
+		if (!tbl_files.getSelectionModel().isEmpty()){
+			selectedIndex = tbl_files.getSelectionModel().getSelectedIndex();
 			btn_open.setDisable(false);
 		} else {
 			btn_open.setDisable(true);

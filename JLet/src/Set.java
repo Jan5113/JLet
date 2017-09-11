@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Set implements Serializable, Comparable<Set>{
@@ -9,6 +11,10 @@ public class Set implements Serializable, Comparable<Set>{
 	
 	public Set() {
 		resetRecentUse();
+	}
+	
+	public String getName () {
+		return name;
 	}
 
 	public void addTerm(Term term_in) {
@@ -27,6 +33,10 @@ public class Set implements Serializable, Comparable<Set>{
 
 	public int getSize() {
 		return terms.size();
+	}
+	
+	public String getSizeStr() {
+		return Integer.toString(terms.size());
 	}
 
 	public String termToString(int index) {
@@ -54,6 +64,13 @@ public class Set implements Serializable, Comparable<Set>{
 	
 	public long getRecentUse() {
 		return recentUse;
+	}
+	
+	public String getRecentUseStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");    
+		Date lastOpened = new Date(getRecentUse());
+		
+		return sdf.format(lastOpened);
 	}
 
 	public int compareTo(Set o) {
