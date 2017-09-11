@@ -7,11 +7,11 @@ import java.io.ObjectOutputStream;
 
 public class SetIO {
 	public static void defaultSafe (Set set_in, boolean ask) {
-		if (new File(set_in.name + ".set").exists() && ask) {
+		if (new File("sets/" + set_in.name + ".set").exists() && ask) {
 			if (!ConfirmWindow.display("Save Set", "The Set " + set_in.name + " already exists.\nDo you want to replace it?"))  return;
 		}
 		
-		File f = new File(set_in.name + ".set");
+		File f = new File("sets/" + set_in.name + ".set");
 		ObjectOutputStream output;
 		FileOutputStream fos;
 		
@@ -27,7 +27,7 @@ public class SetIO {
 	}
 	
 	public static Set[] getSets (){
-		File folder = new File(".");
+		File folder = new File("sets");
 		File[] matchingFiles = folder.listFiles(new FilenameFilter() {
 		    public boolean accept(File dir, String name) {
 		        return name.endsWith(".set");
