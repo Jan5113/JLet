@@ -1,4 +1,6 @@
-import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,18 +23,21 @@ public class Open {
 	private Button btn_open = new Button("Open");
 	private Insets ins_standard = new Insets(12, 12, 12, 12);
 	private ListView<String> list;
-	private File[] files;
+	private Set[] sets;
 	private int selectedIndex = 0;
 
 	public Set openSet() {
 		
 		initialize();
 		
-		files = SetIO.getFiles();
-		String[] fileNames = new String[files.length];
+		sets = SetIO.getSets();
+		Arrays.sort(sets);
+		String[] fileNames = new String[sets.length];
 		
-		for (int i = 0; i < files.length; i++) {
-			fileNames[i] = files[i].getName();
+		for (int i = 0; i < sets.length; i++) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");    
+			Date lastOpened = new Date(sets[i].getRecentUse());
+			fileNames[i] = sets[i].name + " " + sdf.format(lastOpened);
 		}
 		
 		ObservableList<String> items = FXCollections.observableArrayList(fileNames);
@@ -80,7 +85,7 @@ public class Open {
 	}
 
 	private void open() {
-		newSet = SetIO.defaultOpen(files[selectedIndex]);
+		newSet = sets[selectedIndex];
 
 		this.window.close();
 	}

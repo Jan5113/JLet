@@ -92,7 +92,7 @@ public class Main extends Application {
 
 	private void SafeSet() {
 		if (!set_active.isEmpty()) {
-			SetIO.defaultSafe(set_active);
+			SetIO.defaultSafe(set_active, true);
 		} else {
 			AlertWindow.display("No Set", "No active set!\nImport or open set");
 		}
@@ -118,7 +118,9 @@ public class Main extends Application {
 	private void Open() {
 		Set set_open = new Open().openSet();
 		if (!set_open.isEmpty()) {
+			set_open.resetRecentUse();
 			set_active = set_open;
+			SetIO.defaultSafe(set_open, false);
 		}
 		
 		updateInfoLbl();

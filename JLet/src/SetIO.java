@@ -6,8 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SetIO {
-	public static void defaultSafe (Set set_in) {
-		if (new File(set_in.name + ".set").exists()) {
+	public static void defaultSafe (Set set_in, boolean ask) {
+		if (new File(set_in.name + ".set").exists() && ask) {
 			if (!ConfirmWindow.display("Save Set", "The Set " + set_in.name + " already exists.\nDo you want to replace it?"))  return;
 		}
 		
@@ -26,21 +26,34 @@ public class SetIO {
 		} catch (Exception e) {	}
 	}
 	
-	public static File[] getFiles (){
+	public static Set[] getSets (){
 		File folder = new File(".");
 		File[] matchingFiles = folder.listFiles(new FilenameFilter() {
 		    public boolean accept(File dir, String name) {
 		        return name.endsWith(".set");
 		    }
 		});
-//		System.out.println(folder.getAbsolutePath());
-//		System.out.println(matchingFiles.length);
 		
-//		for (File f : matchingFiles) {
-//			System.out.println(f.getName());
-//		}
+		Set[] matchingSets = new Set[matchingFiles.length];
+		ObjectInputStream input;
+		FileInputStream fis;
 		
-		return matchingFiles;
+		for (int i = 0; i < matchingFiles.length; i++) {
+			Set set = new Set();
+			
+			try {
+				fis = new FileInputStream(matchingFiles[i]);
+				input = new ObjectInputStream(fis);
+				
+				set = (Set) input.readObject();
+				fis.close();
+				input.close();
+			} catch (Exception e) {	}
+			
+			matchingSets[i] = set;
+		}
+		
+		return matchingSets;
 	}
 	
 	public static Set defaultOpen (File f) {
@@ -54,6 +67,8 @@ public class SetIO {
 			input = new ObjectInputStream(fis);
 			
 			inputSet = (Set) input.readObject();
+			fis.close();
+			input.close();
 		} catch (Exception e) {	}
 		
 		return inputSet;

@@ -1,10 +1,15 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Set implements Serializable{
+public class Set implements Serializable, Comparable<Set>{
 	private static final long serialVersionUID = -7401207601107379118L;
 	public String name;
 	private ArrayList<Term> terms = new ArrayList<Term>();
+	private long recentUse;
+	
+	public Set() {
+		resetRecentUse();
+	}
 
 	public void addTerm(Term term_in) {
 		terms.add(term_in);
@@ -41,5 +46,22 @@ public class Set implements Serializable{
 	
 	public boolean isEmpty() {
 		return terms.isEmpty();
+	}
+	
+	public void resetRecentUse() {
+		recentUse = System.currentTimeMillis();
+	}
+	
+	public long getRecentUse() {
+		return recentUse;
+	}
+
+	public int compareTo(Set o) {
+
+	    if(this.getRecentUse()<o.getRecentUse())
+	          return 1;
+	    else if(o.getRecentUse()<this.getRecentUse())
+	          return -1;
+	    return 0;
 	}
 }
