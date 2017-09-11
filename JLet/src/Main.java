@@ -17,6 +17,7 @@ public class Main extends Application {
 	String lbl = "\n Hi there!";
 	Label lbl_title_home;
 	Set set_active = new Set();
+	BorderPane bp_home = new BorderPane();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -25,7 +26,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		Button btn_learn;
-		BorderPane bp_home = new BorderPane();
 
 		window = primaryStage;
 		window.setTitle("JLet");
@@ -52,7 +52,7 @@ public class Main extends Application {
 		Menu mn_set = new Menu("Set");
 		{
 			MenuItem mi_setOpen = new MenuItem("Open");
-			mi_setOpen.setOnAction(e -> Import());
+			mi_setOpen.setOnAction(e -> Open());
 
 			MenuItem mi_setSave = new MenuItem("Save");
 			mi_setSave.setOnAction(e -> SafeSet());
@@ -77,6 +77,8 @@ public class Main extends Application {
 		bp_home.setBottom(btn_learn);
 		BorderPane.setAlignment(btn_learn, Pos.BOTTOM_RIGHT);
 		BorderPane.setMargin(btn_learn, ins_statard);
+		
+		
 
 		window.show();
 
@@ -90,7 +92,7 @@ public class Main extends Application {
 
 	private void SafeSet() {
 		if (!set_active.isEmpty()) {
-			SafeSet.defaultSafe(set_active);
+			SetIO.defaultSafe(set_active);
 		} else {
 			AlertWindow.display("No Set", "No active set!\nImport or open set");
 		}
@@ -112,4 +114,15 @@ public class Main extends Application {
 			lbl_title_home.setText("No active Set");
 		}
 	}
+	
+	private void Open() {
+		Set set_open = new Open().openSet();
+		if (!set_open.isEmpty()) {
+			set_active = set_open;
+		}
+		
+		updateInfoLbl();
+		
+	}
 }
+	
