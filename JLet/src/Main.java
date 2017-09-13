@@ -9,6 +9,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -106,14 +109,33 @@ public class Main extends Application {
 			set_active = set_import;
 		}
 		
-		updateInfoLbl();
+		updateCenter();
 	}
 	
-	private void updateInfoLbl() {
+	private void updateCenter() {
 		if (!set_active.isEmpty()) {
-			lbl_title_home.setText(set_active.setToString());
+
+			VBox vb_set = new VBox(10);
+			BorderPane.setMargin(vb_set, ins_statard);
+			HBox[] hb_array = new HBox[set_active.getSize()];
+			for (int i = 0; i < set_active.getSize(); i++){
+				hb_array[i] = new HBox(10);
+				hb_array[i].setMaxWidth(200);
+				hb_array[i].setStyle("-fx-background-color: #EEF;"
+				        + "-fx-padding: 10;");
+				Label lbl_at_temp = new Label(set_active.getTerm(i).term);
+				lbl_at_temp.setMinWidth(100);
+				lbl_at_temp.setFont(new Font(18));
+				Label lbl_ad_temp = new Label(set_active.getTerm(i).def);
+				lbl_ad_temp.setFont(new Font(18));
+				hb_array[i].getChildren().setAll(lbl_at_temp, lbl_ad_temp);
+				vb_set.getChildren().add(hb_array[i]);
+			}
+			vb_set.setAlignment(Pos.TOP_CENTER);
+			bp_home.setCenter(vb_set);
 		} else {
 			lbl_title_home.setText("No active Set");
+			bp_home.setCenter(lbl_title_home);
 		}
 	}
 	
@@ -125,8 +147,7 @@ public class Main extends Application {
 			SetIO.defaultSafe(set_open, false);
 		}
 		
-		updateInfoLbl();
-		
+		updateCenter();		
 	}
 }
 	
